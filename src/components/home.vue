@@ -55,28 +55,28 @@
 						<div class="container">
 							<div class="row py-5 mb-4">
 								<div class="col-md-9">
-									<input type="text" name="" class="form-control py-4 pl-4" placeholder="Shorten a link here...">
+									<input type="text" name="" class="form-control py-4 pl-4" placeholder="Shorten a link here..." v-model="url">
 								</div>
 								<div class="col-md-3">
-									<button class="btn btn-block btn-lg py-2 font-weight-bold">Shorten it!</button>
+									<button class="btn btn-block btn-lg py-2 font-weight-bold" @click="getLink">Shorten it!</button>
 								</div>
 							</div>
 						</div>
 					</form>
 				</div>
 				<!-- url result -->
-				<div class="col-md-12 url-result p-0 mb-3">
+				<div class="col-md-12 url-result p-0 mb-3" v-for="(link,index) in links" :key="index">
 					<div class="card  pb-1">
 						<div class="card-body py-0">
 							<div class="row">
-								<div class="col-md-7" style="">
-									<p class="pt-3">https://www.linkedin.com/company/frontend-mentor</p>
+								<div class="col-md-6">
+									<p class="pt-3">{{link.url | snippet}}</p>
 								</div>
-								<div class="col-md-3" style="">
-									<p class="pt-3 text-right" style="color: hsl(180, 66%, 49%)">https://rel.ink/9je0w6</p>
+								<div class="col-md-4 d-flex align-items-center">
+									<input type="text" class="form-control text-right" disabled readonly style="border: none;color: hsl(180, 66%, 49%); " :value="'https://rel.ink/'+link.hashid" id="copyText">
 								</div>
 								<div class="col-md-2" style="">
-									<a href="" class="btn text-white font-weight-bold" style="margin-top: 10px; width: 100%; background: hsl(180, 66%, 49%)">Copy</a>
+									<a href="" class="btn text-white font-weight-bold" style="margin-top: 10px; width: 100%; background: hsl(180, 66%, 49%)" @click.prevent="copy">Copy</a>
 								</div>
 							</div>
 						</div>
@@ -178,10 +178,45 @@
 
 <script>
 export default {
-    data: () => {
+    data() {
         return{
-
+            url: null,
+            hashid: null,
+            links: []
+        }
+    },
+    methods:{
+        getLink(e){
+            e.preventDefault();
+            this.axios.post('https://rel.ink/api/links/',{
+                "url": this.url
+                }).then((response) =>{
+                this.links.unshift(response.data);
+                this.hashid = response.data.hashid
+            })
+            this.url = ''
+        },
+        copy(){
+           var copyText = document.getElementById("copyText");
+            copyText.select();
+            document.execCommand("copy");
+            alert("Copied the text: " + copyText.value);
         }
     }
 }
 </script>
+<style scoped>
+    #copyText{
+        background: transparent;
+    }
+    #copyText:focus{
+        border: none !important;
+        box-shadow: none !important;
+    }
+    @media screen and (max-width: 600px){
+        #copyText{
+            text-align: left !important;
+            padding-left: 0;
+        }
+    }
+</style>
