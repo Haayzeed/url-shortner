@@ -8,12 +8,12 @@
 					<div class="menu-holder">
 						<input type="checkbox" name="checkbox" id="check">
 						<label for="check" class="checkbtn">
-							<img src="images/icon-hamburger.svg" alt="hamburger icon" class="icon-hamburger">
-							<img src="images/icon-close.svg" alt="hamburger icon" class="icon-close">
+							<img src="@/assets/images/icon-hamburger.svg" alt="hamburger icon" class="icon-hamburger">
+							<img src="@/assets/images/icon-close.svg" alt="hamburger icon" class="icon-close">
 						</label>
 						<div class="logo">
 							<a href="">
-								<img src="images/logo.svg" alt="logo">
+								<img src="@/assets/images/logo.svg" alt="logo">
 							</a>
 						</div>
 						<ul class="main-menu">
@@ -42,7 +42,7 @@
 						<a href="" class="btn banner-btn text-white font-weight-bold mt-3">Get Started</a>
 					</div>
 					<div class="col-md-5 banner-img">
-						<img src="images/illustration-working.svg" alt="illustration" class="d-block mx-auto">
+						<img src="@/assets/images/illustration-working.svg" alt="illustration" class="d-block mx-auto">
 					</div>
 				</div>
 			</div>
@@ -92,7 +92,7 @@
 					<div class="col-md-4 first-card">
 						<div class="card">
 							<div class="card-body p-4">
-								<img src="images/icon-brand-recognition.svg" class=" first-img" alt="icons">
+								<img src="@/assets/images/icon-brand-recognition.svg" class=" first-img" alt="icons">
 								<h5 class="font-weight-bold mt-4">Brand Recognition</h5>
 								<p class="">Boost your brand recognition with each click. Generic links don't mean a thing. Branded links helps instil confidence in your content.</p>
 							</div>
@@ -102,7 +102,7 @@
 					<div class="col-md-4 second-card">
 						<div class="card">
 							<div class="card-body p-4">
-								<img src="images/icon-detailed-records.svg" alt="icons">
+								<img src="@/assets/images/icon-detailed-records.svg" alt="icons">
 								<h5 class="font-weight-bold mt-4">Detailed Records</h5>
 								<p class="">Gain insights into who is clicking your links. Knowing when and where people engage with your content helps inform better decision.</p>
 							</div>
@@ -112,7 +112,7 @@
 					<div class="col-md-4 third-card">
 						<div class="card">
 							<div class="card-body p-4">
-								<img src="images/icon-fully-customizable.svg" alt="icons">
+								<img src="@/assets/images/icon-fully-customizable.svg" alt="icons">
 								<h5 class="font-weight-bold mt-4">Fully Customizable</h5>
 								<p class="">Improve brand awareness and content discoverability through customizable links, supercharging audience engagement.</p>
 							</div>
@@ -134,7 +134,7 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-md-4">
-						<img src="images/logo-light.svg" alt="logo">
+						<img src="@/assets/images/logo-light.svg" alt="logo">
 					</div>
 					<div class="col-md-2 footer-two">
 						<h6 class="font-weight-bold text-white mb-4">Features</h6>
@@ -163,10 +163,10 @@
 					</div>
 					<div class="col-md-2 footer-five">
 						<p>
-							<a href="" name="social"><img src="images/icon-facebook.svg" alt="social media"></a>
-							<a href="" name="social"><img src="images/icon-twitter.svg" alt="social media"></a>
-							<a href="" name="social"><img src="images/icon-pinterest.svg" alt="social media"></a>
-							<a href="" name="social"><img src="images/icon-instagram.svg" alt="social media"></a>
+							<a href="" name="social"><img src="@/assets/images/icon-facebook.svg" alt="social media"></a>
+							<a href="" name="social"><img src="@/assets/images/icon-twitter.svg" alt="social media"></a>
+							<a href="" name="social"><img src="@/assets/images/icon-pinterest.svg" alt="social media"></a>
+							<a href="" name="social"><img src="@/assets/images/icon-instagram.svg" alt="social media"></a>
 						</p>
 					</div>
 				</div>
