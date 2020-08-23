@@ -55,7 +55,8 @@
 						<div class="container">
 							<div class="row py-5 mb-4">
 								<div class="col-md-9">
-									<input type="text" name="" class="form-control py-4 pl-4 position-relative" placeholder="Shorten a link here..." v-model="url"><div v-show="show" class="preloader"></div>
+									<input type="text" name="" class="form-control py-4 pl-4 position-relative" placeholder="Shorten a link here..." :class="{redBorder: error}" v-model="url"><span class="text-danger">{{error}}</span><div v-show="show" class="preloader"></div>
+									
 								</div>
 								<div class="col-md-3">
 									<button class="btn btn-block btn-lg py-2 font-weight-bold" @click="getLink">Shorten it!</button>
@@ -76,7 +77,7 @@
 									<input type="text" class="form-control text-right" disabled readonly style="border: none;color: hsl(180, 66%, 49%); " :value="'https://rel.ink/'+link.hashid" id="copyText">
 								</div>
 								<div class="col-md-2" style="">
-									<button class="btn text-white font-weight-bold" style="margin-top: 10px; width: 100%; background: hsl(180, 66%, 49%)" @click="copier()"  v-clipboard.prevent="() => 'https://rel.ink/'+link.hashid"><span v-if="copyT">Copy</span><span v-if="!copyT" style="background: hsl(260, 8%, 14%) !important" >Copied!</span></button>
+									<button class="btn text-white font-weight-bold" style="margin-top: 10px; width: 100%; background: hsl(180, 66%, 49%)" @click="copier()" :class="{darkbtn: !copyT}"  v-clipboard.prevent="() => 'https://rel.ink/'+link.hashid"><span v-if="copyT">Copy</span><span v-if="!copyT">Copied!</span></button>
 								</div>
 							</div>
 						</div>
@@ -180,19 +181,20 @@
 export default {
     data() {
         return{
-            url: null,
+            url: '',
             hashid: null,
 			links: [],
 			show: false,
-			copyT: true
+			copyT: true,
+			error: ''
         }
     },
     methods:{
         getLink(e){
 			this.show = true
 			e.preventDefault();
-			
-            this.axios.post('https://rel.ink/api/links/',{
+			if((this.url.startsWith('http://')) || (this.url.startsWith('https://'))){
+				this.axios.post('https://rel.ink/api/links/',{
                 "url": this.url
                 }).then(response =>{
 				this.show = false
@@ -201,6 +203,11 @@ export default {
 				localStorage.setItem("links", JSON.stringify(this.links))
 				this.url = ''
             })
+			}
+			else{
+				this.error = 'Invalid URL'
+			}
+            
 		},
 		copier(){
 			this.copyT = false
@@ -220,13 +227,15 @@ export default {
 	}
 }
 </script>
-<!--http://djeverlastin.com-->
 <style scoped>
     #copyText{
         background: transparent;
 	}
 	.darkbtn{
 		background: hsl(260, 8%, 14%) !important;
+	}
+	.redBorder{
+		border: 2px solid red
 	}
 	.preloader{
 		width: 30px;
@@ -261,4 +270,3 @@ export default {
         }
     }
 </style>
-<!--http://djeverlastin.com-->
