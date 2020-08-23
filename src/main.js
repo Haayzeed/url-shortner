@@ -4,10 +4,12 @@ import VueRouter from 'vue-router'
 import { routes } from './router'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import Clipboard from 'v-clipboard'
 import '@/assets/css/bootstrap.min.css'
 import '@/assets/css/style.css'
 Vue.use(VueRouter)
 Vue.use(VueAxios, axios)
+Vue.use(Clipboard)
 
 Vue.config.productionTip = false
 

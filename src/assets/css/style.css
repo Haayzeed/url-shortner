@@ -57,9 +57,9 @@ body{
 	float: right !important;
 	list-style: none;
 }
-.right-btn li:nth-child(1){
-	/*color: black;*/
-}
+/* .right-btn li:nth-child(1){
+	/*color: black;
+} */
 .right-btn li:nth-child(2){
 	background: hsl(180, 66%, 49%);
 	border-radius: 50px;

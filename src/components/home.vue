@@ -55,7 +55,7 @@
 						<div class="container">
 							<div class="row py-5 mb-4">
 								<div class="col-md-9">
-									<input type="text" name="" class="form-control py-4 pl-4" placeholder="Shorten a link here..." v-model="url">
+									<input type="text" name="" class="form-control py-4 pl-4 position-relative" placeholder="Shorten a link here..." v-model="url"><div v-show="show" class="preloader"></div>
 								</div>
 								<div class="col-md-3">
 									<button class="btn btn-block btn-lg py-2 font-weight-bold" @click="getLink">Shorten it!</button>
@@ -76,7 +76,7 @@
 									<input type="text" class="form-control text-right" disabled readonly style="border: none;color: hsl(180, 66%, 49%); " :value="'https://rel.ink/'+link.hashid" id="copyText">
 								</div>
 								<div class="col-md-2" style="">
-									<a href="" class="btn text-white font-weight-bold" style="margin-top: 10px; width: 100%; background: hsl(180, 66%, 49%)" @click.prevent="copy">Copy</a>
+									<button class="btn text-white font-weight-bold" style="margin-top: 10px; width: 100%; background: hsl(180, 66%, 49%)" @click="copier()"  v-clipboard.prevent="() => 'https://rel.ink/'+link.hashid"><span v-if="copyT">Copy</span><span v-if="!copyT" style="background: hsl(260, 8%, 14%) !important" >Copied!</span></button>
 								</div>
 							</div>
 						</div>
@@ -182,33 +182,74 @@ export default {
         return{
             url: null,
             hashid: null,
-            links: []
+			links: [],
+			show: false,
+			copyT: true
         }
     },
     methods:{
         getLink(e){
-            e.preventDefault();
+			this.show = true
+			e.preventDefault();
+			
             this.axios.post('https://rel.ink/api/links/',{
                 "url": this.url
-                }).then((response) =>{
+                }).then(response =>{
+				this.show = false
                 this.links.unshift(response.data);
-                this.hashid = response.data.hashid
+				this.hashid = response.data.hashid
+				localStorage.setItem("links", JSON.stringify(this.links))
+				this.url = ''
             })
-            this.url = ''
-        },
-        copy(){
-           var copyText = document.getElementById("copyText");
-            copyText.select();
-            document.execCommand("copy");
-            alert("Copied the text: " + copyText.value);
+		},
+		copier(){
+			this.copyT = false
+		},
+		storeLinks() {       
+          if (localStorage.getItem('links')) {
+            try {
+              this.links = JSON.parse(localStorage.getItem('links'));
+            } catch(e) {
+              console.log(e);
+            }
+          }
         }
-    }
+    },
+	mounted() {
+        this.storeLinks()
+	}
 }
 </script>
+<!--http://djeverlastin.com-->
 <style scoped>
     #copyText{
         background: transparent;
-    }
+	}
+	.darkbtn{
+		background: hsl(260, 8%, 14%) !important;
+	}
+	.preloader{
+		width: 30px;
+		height: 30px;
+		position: absolute;
+		right: 0px;
+		top: 10px;
+		margin-right: 25px;
+		border-top: 4px solid hsl(180, 66%, 49%);
+		border-right: 4px solid hsl(260, 8%, 14%);
+		border-bottom: 4px solid hsl(260, 8%, 14%);
+		border-left: 4px solid hsl(260, 8%, 14%);
+		border-radius: 50%;
+		animation: roll 1s linear infinite;
+	}
+	@keyframes roll{
+		from{
+			transform: rotate(0deg);
+		}
+		to{
+			transform: rotate(360deg);
+		}
+	}
     #copyText:focus{
         border: none !important;
         box-shadow: none !important;
@@ -220,3 +261,4 @@ export default {
         }
     }
 </style>
+<!--http://djeverlastin.com-->
