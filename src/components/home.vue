@@ -70,14 +70,14 @@
 					<div class="card  pb-1">
 						<div class="card-body py-0">
 							<div class="row">
-								<div class="col-md-6">
-									<p class="pt-3">{{link.url | snippet}}</p>
+								<div class="col-md-7">
+									<p class="pt-3">{{link.new}}</p>
 								</div>
-								<div class="col-md-4 d-flex align-items-center">
-									<input type="text" class="form-control text-right" disabled readonly style="border: none;color: hsl(180, 66%, 49%); " :value="'https://rel.ink/'+link.hashid" id="copyText">
+								<div class="col-md-3 d-flex align-items-center">
+									<input type="text" class="form-control text-right copyText" disabled readonly style="border: none;color: hsl(180, 66%, 49%); " :value="link.full_short_link">
 								</div>
-								<div class="col-md-2" style="">
-									<button class="btn text-white font-weight-bold" style="margin-top: 10px; width: 100%; background: hsl(180, 66%, 49%)" @click="copier()" :class="{darkbtn: !copyT}"  v-clipboard.prevent="() => 'https://rel.ink/'+link.hashid"><span v-if="copyT">Copy</span><span v-if="!copyT">Copied!</span></button>
+								<div class="col-md-2 d-flex align-items-center">
+									<button class="btn text-white font-weight-bold" style="margin-top: 10px; width: 100%; background: hsl(180, 66%, 49%)" :class="{darkbtn : isActive}" v-clipboard.prevent="(value) => link.full_short_link" v-clipboard:success="clipboardSuccessHandler">{{copyText}}</button>
 								</div>
 							</div>
 						</div>
@@ -182,11 +182,12 @@ export default {
     data() {
         return{
             url: '',
-            hashid: null,
 			links: [],
 			show: false,
 			copyT: true,
-			error: ''
+			error: '',
+			copyText: 'Copy',
+			isActive: false,
         }
     },
     methods:{
@@ -194,24 +195,28 @@ export default {
 			this.show = true
 			e.preventDefault();
 			if((this.url.startsWith('http://')) || (this.url.startsWith('https://'))){
-				this.axios.post('https://rel.ink/api/links/',{
-                "url": this.url
-                }).then(response =>{
-				this.show = false
-                this.links.unshift(response.data);
-				this.hashid = response.data.hashid
-				localStorage.setItem("links", JSON.stringify(this.links))
-				this.url = ''
-            })
+				this.axios.post('https://api.shrtco.de/v2/shorten?url='+this.url
+				).then(response =>{
+					console.log(response.data.result)
+					this.show = false
+					let mainLink = response.data.result
+					mainLink.new = response.data.result.original_link.substr(0,80) + '...'
+					this.links.unshift(mainLink)
+					console.log(this.links)
+					localStorage.setItem("links", JSON.stringify(this.links))
+					this.url = ''
+				})
 			}
 			else{
 				this.error = 'Invalid URL'
+				this.show = false
 			}
-            
 		},
-		copier(){
-			this.copyT = false
+		clipboardSuccessHandler (value) {
+			console.log('success', value)
+			this.copyText = "Copied!"
 		},
+		
 		storeLinks() {       
           if (localStorage.getItem('links')) {
             try {
@@ -220,16 +225,16 @@ export default {
               console.log(e);
             }
           }
-        }
-    },
+		},
+	},
 	mounted() {
-        this.storeLinks()
+		this.storeLinks()
 	}
 }
 </script>
 <style scoped>
-    #copyText{
-        background: transparent;
+    .copyText{
+        background: transparent !important;
 	}
 	.darkbtn{
 		background: hsl(260, 8%, 14%) !important;
@@ -259,12 +264,12 @@ export default {
 			transform: rotate(360deg);
 		}
 	}
-    #copyText:focus{
+    .copyText:focus{
         border: none !important;
         box-shadow: none !important;
     }
     @media screen and (max-width: 600px){
-        #copyText{
+        .copyText{
             text-align: left !important;
             padding-left: 0;
         }

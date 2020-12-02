@@ -110,7 +110,6 @@ body{
 }
 .url-link-body{
 	margin-top: -70px;
-	/*width: 85%;*/
 }
 .url-link-holder{
 	background: hsl(255, 11%, 22%) url('../images/bg-shorten-desktop.svg') right;
@@ -456,5 +455,5 @@ body{
 		max-width: 100% !important;
 	}
 }
-/*=========================================End of Media Quesries======================================*/
+/*=========================================End of Media Queries======================================*/
 
