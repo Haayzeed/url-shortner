@@ -77,7 +77,7 @@
 									<input type="text" class="form-control text-right copyText" disabled readonly style="border: none;color: hsl(180, 66%, 49%); " :value="link.full_short_link">
 								</div>
 								<div class="col-md-2 d-flex align-items-center">
-									<button class="btn text-white font-weight-bold" style="margin-top: 10px; width: 100%; background: hsl(180, 66%, 49%)" :class="{darkbtn : isActive}" v-clipboard.prevent="(value) => link.full_short_link" v-clipboard:success="clipboardSuccessHandler">{{copyText}}</button>
+									<button class="btn text-white font-weight-bold" style="margin-top: 10px; width: 100%; background: hsl(180, 66%, 49%)" @click="setActive(index)"  :class="{ 'active': activeIndex === index}" v-clipboard.prevent="(value) => link.full_short_link"><span v-if="activeIndex === index">Copied</span><span v-else>Copy</span></button>
 								</div>
 							</div>
 						</div>
@@ -188,6 +188,7 @@ export default {
 			error: '',
 			copyText: 'Copy',
 			isActive: false,
+			activeIndex: undefined
         }
     },
     methods:{
@@ -200,11 +201,12 @@ export default {
 					console.log(response.data.result)
 					this.show = false
 					let mainLink = response.data.result
-					mainLink.new = response.data.result.original_link.substr(0,80) + '...'
+					mainLink.new = response.data.result.original_link.substr(0,50) + '...'
 					this.links.unshift(mainLink)
 					console.log(this.links)
 					localStorage.setItem("links", JSON.stringify(this.links))
 					this.url = ''
+					location.reload()
 				})
 			}
 			else{
@@ -212,10 +214,10 @@ export default {
 				this.show = false
 			}
 		},
-		clipboardSuccessHandler (value) {
-			console.log('success', value)
-			this.copyText = "Copied!"
-		},
+		setActive(index) { 
+			this.activeIndex = index 
+			// this.copyText = "Copied!"
+			},
 		
 		storeLinks() {       
           if (localStorage.getItem('links')) {
@@ -236,7 +238,7 @@ export default {
     .copyText{
         background: transparent !important;
 	}
-	.darkbtn{
+	.active{
 		background: hsl(260, 8%, 14%) !important;
 	}
 	.redBorder{
