@@ -186,9 +186,7 @@ export default {
 			show: false,
 			copyT: true,
 			error: '',
-			copyText: 'Copy',
-			isActive: false,
-			activeIndex: undefined
+			activeIndex: null
         }
     },
     methods:{
@@ -198,12 +196,10 @@ export default {
 			if((this.url.startsWith('http://')) || (this.url.startsWith('https://'))){
 				this.axios.post('https://api.shrtco.de/v2/shorten?url='+this.url
 				).then(response =>{
-					console.log(response.data.result)
 					this.show = false
 					let mainLink = response.data.result
 					mainLink.new = response.data.result.original_link.substr(0,50) + '...'
 					this.links.unshift(mainLink)
-					console.log(this.links)
 					localStorage.setItem("links", JSON.stringify(this.links))
 					this.url = ''
 					location.reload()
@@ -216,9 +212,7 @@ export default {
 		},
 		setActive(index) { 
 			this.activeIndex = index 
-			// this.copyText = "Copied!"
-			},
-		
+		},
 		storeLinks() {       
           if (localStorage.getItem('links')) {
             try {
