@@ -1,5 +1,5 @@
 # url-shortner
-The challenge is to integrate with the shrtcode API to create shortened URLs and display them like in the designs.
+The challenge is to integrate with the shrtcode API to create shortened URLs and display them.
 
 Users should are able to:
 
