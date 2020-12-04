@@ -5,7 +5,6 @@
 }
 body{
 	font-family: 'Poppins', sans-serif;
-	/*overflow-x: hidden;*/
 }
 .main{
 	position: relative;
@@ -301,7 +300,9 @@ body{
 	.checkbtn {
 		display: block;
 	}
-	
+	.icon-close, .icon-hamburger{
+		margin-top: 18px;
+	}
 	.logo{
 		margin-top: 5px;
 	}

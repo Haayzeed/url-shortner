@@ -8,8 +8,8 @@
 					<div class="menu-holder">
 						<input type="checkbox" name="checkbox" id="check">
 						<label for="check" class="checkbtn">
-							<img src="@/assets/images/icon-hamburger.svg" alt="hamburger icon" class="icon-hamburger">
-							<img src="@/assets/images/icon-close.svg" alt="hamburger icon" class="icon-close">
+							<img src="@/assets/images/icon-hamburger.svg" alt="hamburger icon" class="icon-hamburger" id="icon-open" @click="showMenu">
+							<img src="@/assets/images/icon-close.svg" alt="hamburger icon" class="icon-close" id="icon-closed" @click="closeMenu">
 						</label>
 						<div class="logo">
 							<a href="">
@@ -212,6 +212,18 @@ export default {
 		},
 		setActive(index) { 
 			this.activeIndex = index 
+		},
+		showMenu(){
+			var menu = document.getElementById("icon-open");
+			var close = document.getElementById("icon-closed");
+			menu.style.display = "none";
+			close.style.display = "block";
+		},
+		closeMenu(){
+			var close = document.getElementById("icon-closed");
+			var menu = document.getElementById("icon-open");
+			close.style.display = "none";
+			menu.style.display = "block";
 		},
 		storeLinks() {       
           if (localStorage.getItem('links')) {
