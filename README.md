@@ -1,7 +1,7 @@
 # url-shortner
-The challenge is to integrate with the shrtcode API to create shortened URLs and display them.
+The challenge is to integrate the shrtcode API to create shortened URLs and display them.
 
-Users should are able to:
+Users are able to:
 
 -View the optimal layout for the site depending on their device's screen size
 
